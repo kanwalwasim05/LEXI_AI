@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexi – Your AI Education Agent</title>
+  <meta name="description" content="Lexi is an AI-powered education agent that explains concepts, quizzes students, tracks weak areas, breaks down assignments, and practices foreign language conversations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Style.css" />
+</head>
+<body>
+
+  <!-- ===== SIDEBAR NAV ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <circle cx="14" cy="14" r="14" fill="url(#brandGrad)"/>
+          <path d="M8 14c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="2.5" fill="#fff"/>
+          <defs><linearGradient id="brandGrad" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse"><stop stop-color="#8b5cf6"/><stop offset="1" stop-color="#ec4899"/></linearGradient></defs>
+        </svg>
+      </div>
+      <span class="brand-name">Lexi</span>
+      <span class="brand-tag">AI Agent</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="dashboard" id="nav-dashboard">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-section="explain" id="nav-explain">
+        <span class="nav-icon">🧠</span>
+        <span class="nav-label">Explain Concept</span>
+      </a>
+      <a href="#" class="nav-item" data-section="quiz" id="nav-quiz">
+        <span class="nav-icon">📝</span>
+        <span class="nav-label">Quiz Me</span>
+      </a>
+      <a href="#" class="nav-item" data-section="weak" id="nav-weak">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Weak Areas</span>
+      </a>
+      <a href="#" class="nav-item" data-section="assignment" id="nav-assignment">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Assignment Helper</span>
+      </a>
+      <a href="#" class="nav-item" data-section="language" id="nav-language">
+        <span class="nav-icon">🌍</span>
+        <span class="nav-label">Language Practice</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle sidebar">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-center">
+        <span class="topbar-greeting" id="topbarGreeting">Good morning! 👋</span>
+      </div>
+      <div class="topbar-right">
+        <div class="api-key-wrapper">
+          <input type="password" id="apiKeyInput" placeholder="Enter OpenAI API Key…" class="api-key-input" />
+          <button class="btn-save-key" id="btnSaveKey">Connect</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== DASHBOARD ===================== -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-header">
+        <h1 class="page-title">Welcome back! <span class="gradient-text">Ready to learn?</span></h1>
+        <p class="page-subtitle">Lexi is your personal AI tutor — ask anything, quiz yourself, and grow every day.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📚</div>
+          <div class="stat-info">
+            <span class="stat-number" id="statConcepts">0</span>
+            <span class="stat-label">Concepts Explained</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-info">
+            <span class="stat-number" id="statQuizzes">0</span>
+            <span class="stat-label">Quizzes Taken</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-info">
+            <span class="stat-number" id="statWeak">0</span>
+            <span class="stat-label">Weak Areas Tracked</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💬</div>
+          <div class="stat-info">
+            <span class="stat-number" id="statLang">0</span>
+            <span class="stat-label">Language Sessions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-actions">
+        <h2 class="section-heading">Quick Actions</h2>
+        <div class="action-cards">
+          <div class="action-card" data-goto="explain">
+            <div class="action-card-icon">🧠</div>
+            <h3>Explain a Concept</h3>
+            <p>Get clear, layered explanations for any topic in any subject.</p>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-card" data-goto="quiz">
+            <div class="action-card-icon">📝</div>
+            <h3>Take a Quiz</h3>
+            <p>Test your knowledge and discover gaps with AI-generated quizzes.</p>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-card" data-goto="assignment">
+            <div class="action-card-icon">📋</div>
+            <h3>Break Down Assignment</h3>
+            <p>Turn any complex assignment into clear, actionable steps.</p>
+            <span class="action-arrow">→</span>
+          </div>
+          <div class="action-card" data-goto="language">
+            <div class="action-card-icon">🌍</div>
+            <h3>Language Practice</h3>
+            <p>Have a real conversation with Lexi in Spanish, French, Japanese & more.</p>
+            <span class="action-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EXPLAIN CONCEPT ===================== -->
+    <section class="page" id="page-explain">
+      <div class="page-header">
+        <h1 class="page-title">🧠 Explain <span class="gradient-text">Any Concept</span></h1>
+        <p class="page-subtitle">Ask Lexi to explain anything — from quantum physics to the French Revolution.</p>
+      </div>
+
+      <div class="explain-controls glass-card">
+        <div class="input-row">
+          <input type="text" id="conceptInput" placeholder="e.g. 'Explain photosynthesis like I'm 10'" class="text-input" />
+          <select id="conceptLevel" class="select-input">
+            <option value="beginner">Beginner</option>
+            <option value="intermediate" selected>Intermediate</option>
+            <option value="advanced">Advanced</option>
+            <option value="eli5">ELI5 (Simple)</option>
+          </select>
+          <button class="btn-primary" id="btnExplain">
+            <span>Explain</span>
+            <span class="btn-icon">✨</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="response-area" id="explainResponse">
+        <div class="empty-state">
+          <div class="empty-icon">🧠</div>
+          <p>Enter a concept above and Lexi will explain it for you!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== QUIZ ===================== -->
+    <section class="page" id="page-quiz">
+      <div class="page-header">
+        <h1 class="page-title">📝 <span class="gradient-text">Quiz Me</span></h1>
+        <p class="page-subtitle">Generate a custom quiz on any topic and test your knowledge in real time.</p>
+      </div>
+
+      <div class="quiz-setup glass-card" id="quizSetup">
+        <div class="input-row">
+          <input type="text" id="quizTopic" placeholder="e.g. 'World War II', 'Algebra', 'Biology'" class="text-input" />
+          <select id="quizDifficulty" class="select-input">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <select id="quizCount" class="select-input" style="max-width:100px">
+            <option value="3">3 Qs</option>
+            <option value="5" selected>5 Qs</option>
+            <option value="10">10 Qs</option>
+          </select>
+          <button class="btn-primary" id="btnGenerateQuiz">
+            <span>Generate Quiz</span>
+            <span class="btn-icon">🎯</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="quizArea" class="quiz-area">
+        <div class="empty-state">
+          <div class="empty-icon">📝</div>
+          <p>Configure your quiz above and hit <strong>Generate Quiz</strong>!</p>
+        </div>
+      </div>
+
+      <div id="quizResults" class="quiz-results hidden"></div>
+    </section>
+
+    <!-- ===================== WEAK AREAS ===================== -->
+    <section class="page" id="page-weak">
+      <div class="page-header">
+        <h1 class="page-title">📊 Weak Area <span class="gradient-text">Tracker</span></h1>
+        <p class="page-subtitle">Lexi automatically tracks topics where you struggle and builds a focus plan.</p>
+      </div>
+
+      <div class="weak-layout">
+        <div class="glass-card weak-list-card">
+          <h2 class="card-title">Your Weak Areas</h2>
+          <ul class="weak-list" id="weakList">
+            <li class="empty-state-inline">No weak areas tracked yet. Take a quiz to get started!</li>
+          </ul>
+          <button class="btn-secondary" id="btnAnalyzeWeak">Ask Lexi to Analyze & Suggest</button>
+        </div>
+
+        <div class="glass-card weak-plan-card">
+          <h2 class="card-title">Study Plan</h2>
+          <div id="studyPlan">
+            <div class="empty-state">
+              <div class="empty-icon">📖</div>
+              <p>Click "Analyze & Suggest" to get your personalized study plan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ASSIGNMENT ===================== -->
+    <section class="page" id="page-assignment">
+      <div class="page-header">
+        <h1 class="page-title">📋 Assignment <span class="gradient-text">Helper</span></h1>
+        <p class="page-subtitle">Paste any assignment and Lexi will break it into clear, step-by-step actions.</p>
+      </div>
+
+      <div class="glass-card">
+        <textarea id="assignmentInput" class="textarea-input" rows="5" placeholder="Paste your assignment here… e.g. 'Write a 2000-word essay on climate change, including 3 peer-reviewed sources, due Friday.'"></textarea>
+        <div class="input-row" style="margin-top:1rem">
+          <select id="assignmentSubject" class="select-input">
+            <option value="general">General</option>
+            <option value="science">Science</option>
+            <option value="math">Mathematics</option>
+            <option value="history">History</option>
+            <option value="english">English / Literature</option>
+            <option value="coding">Programming / CS</option>
+          </select>
+          <button class="btn-primary" id="btnBreakdown">
+            <span>Break It Down</span>
+            <span class="btn-icon">🗂️</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="response-area" id="assignmentResponse">
+        <div class="empty-state">
+          <div class="empty-icon">📋</div>
+          <p>Paste your assignment above and Lexi will create a step-by-step action plan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LANGUAGE PRACTICE ===================== -->
+    <section class="page" id="page-language">
+      <div class="page-header">
+        <h1 class="page-title">🌍 Language <span class="gradient-text">Practice</span></h1>
+        <p class="page-subtitle">Have a real conversation with Lexi and practice a foreign language naturally.</p>
+      </div>
+
+      <div class="lang-settings glass-card">
+        <div class="input-row">
+          <select id="langSelect" class="select-input">
+            <option value="Spanish">🇪🇸 Spanish</option>
+            <option value="French">🇫🇷 French</option>
+            <option value="German">🇩🇪 German</option>
+            <option value="Japanese">🇯🇵 Japanese</option>
+            <option value="Mandarin Chinese">🇨🇳 Mandarin Chinese</option>
+            <option value="Arabic">🇸🇦 Arabic</option>
+            <option value="Portuguese">🇧🇷 Portuguese</option>
+            <option value="Italian">🇮🇹 Italian</option>
+            <option value="Korean">🇰🇷 Korean</option>
+            <option value="Urdu">🇵🇰 Urdu</option>
+          </select>
+          <select id="langLevel" class="select-input">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate" selected>Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+          <select id="langScenario" class="select-input">
+            <option value="Free Conversation">Free Conversation</option>
+            <option value="At a Restaurant">At a Restaurant</option>
+            <option value="Asking for Directions">Asking for Directions</option>
+            <option value="Job Interview">Job Interview</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Meeting Someone New">Meeting Someone New</option>
+          </select>
+          <button class="btn-primary" id="btnStartLang">
+            <span id="langBtnText">Start Session</span>
+            <span class="btn-icon">💬</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-container glass-card" id="langChatContainer">
+        <div class="chat-messages" id="langMessages">
+          <div class="chat-welcome">
+            <span class="chat-welcome-icon">🌍</span>
+            <p>Select a language and scenario above, then start your session!</p>
+          </div>
+        </div>
+        <div class="chat-input-row" id="langInputRow" style="display:none">
+          <input type="text" id="langUserInput" class="text-input" placeholder="Type your message…" />
+          <button class="btn-primary" id="btnSendLang">Send →</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LOADING OVERLAY -->
+  <div class="loading-overlay hidden" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <p class="loading-text" id="loadingText">Lexi is thinking…</p>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
